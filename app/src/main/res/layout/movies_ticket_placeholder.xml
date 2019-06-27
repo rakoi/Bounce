@@ -1,0 +1,108 @@
+<LinearLayout
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="116dp"
+            android:layout_height="116dp"
+            android:src="@color/colorGrey"
+
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginRight="160dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorGrey" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="116dp"
+            android:layout_height="116dp"
+            android:src="@color/colorGrey"
+
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginRight="160dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorGrey" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="116dp"
+            android:layout_height="116dp"
+            android:src="@color/colorGrey"
+
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginRight="160dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorGrey" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="116dp"
+            android:layout_height="116dp"
+            android:src="@color/colorGrey"
+
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginRight="160dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorGrey" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
