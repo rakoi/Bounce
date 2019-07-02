@@ -75,7 +75,14 @@ public class Show {
     public Image getImage() { return image; }
     public void setImage(Image value) { this.image = value; }
 
-    public String getSummary() { return summary; }
+    public String getSummary() {
+        String formatedSummary=this.summary.substring(0,Math.min(summary.length(),320));
+        if(summary.length()>320){
+            return formatedSummary+"...";
+        }
+        return formatedSummary;
+
+    }
     public void setSummary(String value) { this.summary = value; }
 
     public long getUpdated() { return updated; }

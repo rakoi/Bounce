@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout.addTab(tabLayout.newTab().setText("My List"));
         tabLayout.addTab(tabLayout.newTab().setText("Watch List"));
-        tabLayout.addTab(tabLayout.newTab().setText("New Shows"));
+        tabLayout.addTab(tabLayout.newTab().setText("New Episodes"));
 
         navigationPageAdapter=new NavigationPageAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
         viewPager.setAdapter(navigationPageAdapter);

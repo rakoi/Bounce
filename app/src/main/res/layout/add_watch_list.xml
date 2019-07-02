@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/pop_up_background"
+
+    >
+
+    <AutoCompleteTextView
+            android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:hint="Movie Name"
+        android:layout_gravity="center"
+        android:id="@+id/AddwatchListMovieName"
+        android:paddingTop="5dp"
+        android:background="@drawable/input_field_background"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        />
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add To WatchList"
+        android:id="@+id/saveWatchListItem"
+        android:background="@drawable/buttonbackground"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_gravity="center"
+        android:padding="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        />
+
+</LinearLayout>

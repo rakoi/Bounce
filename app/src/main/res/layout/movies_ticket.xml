@@ -1,54 +1,94 @@
 
 <LinearLayout
-
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingBottom="10dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:background="@drawable/listitembackground"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginTop="10dp"
+
+
+    >
     <com.ramotion.foldingcell.FoldingCell
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/folding_cell"
         android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+
+        >
         ​
         <LinearLayout
             android:id="@+id/cell_content_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipChildren="false"
+            android:orientation="vertical"
             android:clipToPadding="false"
-            android:visibility="gone">
+            android:visibility="gone"
+
+
+           >
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
-                android:text="Summary goes here"
-                android:id="@+id/Summary"
-                android:gravity="center"
-
-                android:paddingLeft="20dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/newMovieTitle"
                 android:fontFamily="casual"
+                android:textStyle="bold"
+                android:layout_marginLeft="30dp"
+                android:text="The BlackList"
                 />
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="280dp"
+               android:orientation="horizontal"
+
+               >
+               <de.hdodenhof.circleimageview.CircleImageView
+                   android:layout_width="126dp"
+                   android:layout_height="126dp"
+                   android:src="@drawable/maze"
+                   android:id="@+id/movieImage"
+                   android:paddingTop="10dp"
+
+                   />
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:text="Summary goes here"
+                   android:id="@+id/Summary"
+                   android:paddingTop="5dp"
+                   android:paddingRight="5dp"
+                   android:paddingLeft="10dp"
+                   android:fontFamily="casual"
+                   />
+           </LinearLayout>
+
         </LinearLayout>
         ​
         <FrameLayout
             android:id="@+id/cell_title_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
                 android:clipChildren="false"
                 android:clipToPadding="false"
+
+
                 >
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:layout_width="116dp"
-                    android:layout_height="116dp"
+                    android:layout_width="126dp"
+                    android:layout_height="126dp"
                     android:src="@drawable/maze"
                     android:id="@+id/newImage"
                     android:paddingTop="10dp"
+                    android:paddingLeft="10dp"
                     />
                 <TextView
                     android:layout_width="match_parent"
@@ -56,7 +96,7 @@
                     android:text="The blacklist"
                     android:textStyle="bold|italic"
                     android:textColor="@color/bluegray"
-                    android:textSize="18dp"
+                    android:textSize="15dp"
                     android:id="@+id/newMovieName"
                     android:layout_margin="10dp"
                     android:layout_toRightOf="@+id/newImage"

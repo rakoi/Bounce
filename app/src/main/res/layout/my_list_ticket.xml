@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/listitembackground"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="8dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/myMovieImage"
+            android:layout_width="63dp"
+            android:layout_height="63dp"
+            android:src="@drawable/maze"
+            android:layout_marginLeft="20dp"
+            />
+
+        <TextView
+            android:id="@+id/mySavedMoveName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/myMovieImage"
+            android:text="The blacklist"
+            android:textColor="@color/bluegray"
+            android:textSize="15dp"
+            android:textStyle="bold|italic" />
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mySavedMoveName"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/myMovieImage"
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:gravity="bottom"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Season" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/myLatestSn"
+                android:text="--" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text=" Episode" />
+
+            <TextView
+                android:id="@+id/myLatestEp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="--" />
+
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</LinearLayout>

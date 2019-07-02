@@ -45,19 +45,24 @@ public class NewMoviesRecyclerAdapter extends RecyclerView.Adapter<NewMoviesRecy
         String episode=String.valueOf(movies.getNumber());
       if(movies.getShow().getImage()!=null){
           Picasso.get().load(movies.getShow().getImage().getOriginal()).into(holder.movieImage);
+          Picasso.get().load(movies.getShow().getImage().getMedium()).into(holder.MediumImage);
 
       }
+      holder.newMovieTitle.setText(movies.getShow().getName());
 
       holder.moviename.setText(movies.getShow().getName());
          holder.season.setText(season);
         holder.episode.setText(episode);
             holder.summary.setText(android.text.Html.fromHtml(movies.getShow().getSummary()));
-        holder.genre.setText(movies.getShow().getGenres()[0]);
+            if(movies.getShow().getGenres().length>0){
+            String[] genre=movies.getShow().getGenres();
+                holder.genre.setText(genre[0]);
+            }else{
+                holder.genre.setText("Unknown");
+            }
 
 
 
-       // holder.fc.initialize(1000, Color.DKGRAY, 1);
-        //holder.fc.initialize(30, 1000, Color.DKGRAY, 1);
 
         if(!movies.getShow().getSummary().equals("")||movies.getShow().getSummary().isEmpty()){
             holder.fc.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +83,9 @@ public class NewMoviesRecyclerAdapter extends RecyclerView.Adapter<NewMoviesRecy
 
     class ViewHolder extends RecyclerView.ViewHolder{
 
+        TextView newMovieTitle;
         ImageView movieImage;
+        ImageView MediumImage;
         TextView moviename;
         TextView episode;
         TextView season;
@@ -86,13 +93,16 @@ public class NewMoviesRecyclerAdapter extends RecyclerView.Adapter<NewMoviesRecy
         TextView summary;
         FoldingCell fc;
         public ViewHolder(View itemView) {
+
             super(itemView);
+            newMovieTitle=itemView.findViewById(R.id.newMovieTitle);
             movieImage=itemView.findViewById(R.id.newImage);
             moviename=itemView.findViewById(R.id.newMovieName);
             episode=itemView.findViewById(R.id.Episode);
             season=itemView.findViewById(R.id.Season);
             genre=itemView.findViewById(R.id.genre);
             summary=itemView.findViewById(R.id.Summary);
+            MediumImage=itemView.findViewById(R.id.movieImage);
           fc=itemView.findViewById(R.id.folding_cell);
 
         }
