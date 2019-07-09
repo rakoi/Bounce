@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -36,6 +37,7 @@ public class WatchList extends Fragment {
     public View popupView;
     public int width,height;
     public boolean focusable=true;
+    public  WatchListRecyclerAdapter watchListRecyclerAdapter;
     public WatchList() {
         // Required empty public constructor
     }
@@ -51,11 +53,6 @@ public class WatchList extends Fragment {
         addWatchListFab=view.findViewById(R.id.addWatchListFab);
         myWatchListRecyclerView=view.findViewById(R.id.myWatchListRecyclerView);
         database= Room.databaseBuilder(getActivity().getApplicationContext(),AppDatabase.class,"bounce").allowMainThreadQueries().build();
-        myWatchList=database.myWatchListDao().getAllWatchListItems();
-        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
-        final WatchListRecyclerAdapter watchListRecyclerAdapter=new WatchListRecyclerAdapter(myWatchList,getContext());
-        myWatchListRecyclerView.setAdapter(watchListRecyclerAdapter);
-        myWatchListRecyclerView.setLayoutManager(layoutManager);
 
         popupView=getLayoutInflater().inflate(R.layout.add_watch_list,null);
         width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -66,13 +63,12 @@ public class WatchList extends Fragment {
 
 
 
-
         saveWatchListItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(watchListItemName.getText().toString().isEmpty()){
-                    Toast.makeText(getActivity().getApplicationContext(),"Add Movie Name",Toast.LENGTH_SHORT).show();
+                if(watchListItemName.getText().toString().equals("")){
+                   Toast.makeText(getContext(),"Enter Movie Name",Toast.LENGTH_SHORT).show();
                 }else{
                     String movieName=watchListItemName.getText().toString();
                     www.limo.com.mymovies.entities.WatchList watchList = new www.limo.com.mymovies.entities.WatchList(movieName);
@@ -100,4 +96,17 @@ public class WatchList extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+      getItems();
+    }
+    public void getItems(){
+        myWatchList=database.myWatchListDao().getAllWatchListItems();
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
+        watchListRecyclerAdapter=new WatchListRecyclerAdapter(myWatchList,getContext());
+        myWatchListRecyclerView.setAdapter(watchListRecyclerAdapter);
+        myWatchListRecyclerView.setLayoutManager(layoutManager);
+
+    }
 }

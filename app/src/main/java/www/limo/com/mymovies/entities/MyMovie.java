@@ -2,6 +2,7 @@ package www.limo.com.mymovies.entities;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
 @Entity
@@ -15,6 +16,9 @@ public class MyMovie {
     public int season;
     @ColumnInfo(name = "episode")
     public int episode;
+
+    @Ignore
+    public boolean isSelected;
 
     public MyMovie() {
     }
@@ -62,5 +66,13 @@ public class MyMovie {
 
     public void setEpisode(int episode) {
         this.episode = episode;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

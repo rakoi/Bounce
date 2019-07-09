@@ -1,21 +1,29 @@
 package www.limo.com.mymovies.entities;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.*;
 
 public class Result {
     private long voteCount;
     private long id;
     private boolean video;
+    @SerializedName("vote_average")
     private double voteAverage;
     private String title;
     private double popularity;
+    @SerializedName("poster_path")
     private String posterPath;
     private OriginalLanguage originalLanguage;
+    @SerializedName("original_title")
     private String originalTitle;
+    @SerializedName("genre_ids")
     private long[] genreIDS;
+    @SerializedName("backdrop_path")
     private String backdropPath;
     private boolean adult;
     private String overview;
+    @SerializedName("release_date")
     private String releaseDate;
 
     public long getVoteCount() { return voteCount; }

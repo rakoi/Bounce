@@ -3,7 +3,9 @@ package www.limo.com.mymovies;
 import android.app.Activity;
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -49,13 +51,22 @@ class WatchListRecyclerAdapter extends RecyclerView.Adapter<WatchListRecyclerAda
     public void onBindViewHolder(@NonNull final WatchListViewHolder holder, final int position) {
 
         final WatchList watchList=myWatchList.get(position);
-        holder.watchListMovieName.setText(watchList.getMovieName());
         holder.itemView.setBackgroundColor(watchList.isSelected() ? Color.GRAY : Color.WHITE);
+
+        if(watchList.isWatched){
+            holder.watchListMovieName.setText(watchList.getMovieName());
+            holder.watchListMovieName.setPaintFlags(holder.watchListMovieName.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }else {
+            holder.watchListMovieName.setText(watchList.getMovieName());
+            holder.watchListMovieName.setPaintFlags(holder.watchListMovieName.getPaintFlags() &(~Paint.STRIKE_THRU_TEXT_FLAG));
+
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WatchList clickedItem=myWatchList.get(position);
+                //Toast.makeText(context,String.valueOf(clickedItem.isWatched),Toast.LENGTH_SHORT).show();
                 if(selectedItems.size()>0&&selectedItems.contains(clickedItem)){
                     togleState(clickedItem);
                     selectedItems.remove(clickedItem);
@@ -150,20 +161,32 @@ class WatchListRecyclerAdapter extends RecyclerView.Adapter<WatchListRecyclerAda
             }else if(item.getItemId()==R.id.makedAsWatched){
                 for (int i = 0; i < selectedItems.size(); i++) {
                     WatchList watchListItem = selectedItems.get(i);
-                    database.myWatchListDao().updateWatchedStatus(watchListItem.getId(),watchListItem.isSelected);
+                    togleState(watchListItem);
+                    database.myWatchListDao().updateWatchedStatus(watchListItem.getId(),!watchListItem.isWatched);
+                    watchListItem.setWatched(!watchListItem.isWatched);
                     notifyDataSetChanged();
                 }
 
             }
-            actionMode.finish();
+            if(actionMode!=null){
+           actionMode.finish();
+            }
             return true;
         }
 
         @Override
         public void onDestroyActionMode(ActionMode mode) {
-            mode=null;
+
+
+            for(int i=0;i<selectedItems.size();i++){
+                WatchList item=selectedItems.get(i);
+                item.setSelected(false);
+                notifyDataSetChanged();
+
+            }
             selectedItems.clear();
             actionMode=null;
+           // Toast.makeText(context,String.valueOf(selectedItems.size()),Toast.LENGTH_LONG).show();
         }
     }
 }

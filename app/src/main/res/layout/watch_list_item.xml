@@ -31,7 +31,7 @@
         android:layout_margin="10dp"
         android:layout_centerVertical="true"
         android:textSize="15dp"
-        android:textStyle="bold|italic" />
+        android:textStyle="italic" />
     </RelativeLayout>
 
 </LinearLayout>

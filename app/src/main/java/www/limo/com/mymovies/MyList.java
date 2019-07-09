@@ -23,6 +23,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class MyList extends Fragment {
          database= Room.databaseBuilder(getActivity().getApplicationContext(),AppDatabase.class,"bounce").allowMainThreadQueries().build();
          myMovieArrayList=database.myMoviesDao().getAllMyMovies();
          Log.d("Movies Size", String.valueOf(myMovieArrayList.size()));
-          moviesRecyclerAdapter=new MyMoviesAdapter(myMovieArrayList);
+          moviesRecyclerAdapter=new MyMoviesAdapter(myMovieArrayList,getContext(),getActivity(),view);
         LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setAdapter(moviesRecyclerAdapter);
         recyclerView.setLayoutManager(layoutManager);
@@ -85,17 +86,18 @@ public class MyList extends Fragment {
 
         Button saveButton=(Button) popUpView.findViewById(R.id.saveMyMovie);
         final EditText movieName=(EditText)popUpView.findViewById(R.id.myMoveName);
+        final TextView warning=popUpView.findViewById(R.id.addMovieWarning);
 
 
-             //   final EditText Season=(EditText)popUpView.findViewById(R.id.mySeason);
+        //   final EditText Season=(EditText)popUpView.findViewById(R.id.mySeason);
                //         final EditText episode=(EditText)popUpView.findViewById(R.id.myEpisode);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                if(movieName.getText().equals("")){
-                    Toast.makeText(getActivity().getApplicationContext(),"Enter All Values",Toast.LENGTH_LONG).show();
+                if(movieName.getText().toString().equals("")){
+                      warning.setText("Enter Movie Name");
                 }else {
                     String movieNameText=movieName.getText().toString();
                     int SeasonInt= Integer.parseInt(Season.getSelectedItem().toString());
@@ -106,6 +108,7 @@ public class MyList extends Fragment {
                     database.myMoviesDao().insertAll(myMovie);
                     movieName.setText("");
                     Season.setSelection(0);
+                    warning.setText("");
                     episode.setSelection(0);
                     popupWindow.dismiss();
                 }

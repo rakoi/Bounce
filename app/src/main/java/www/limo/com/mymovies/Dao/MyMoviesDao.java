@@ -1,7 +1,9 @@
 package www.limo.com.mymovies.Dao;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
@@ -18,6 +20,11 @@ public interface MyMoviesDao {
     @Insert
     void insertAll(MyMovie ...myMovies);
 
+    @Delete
+    void deletemyMovie(MyMovie ...myMovies);
+
+    @android.arch.persistence.room.Query("Update MyMovie SET episode=:newepisode,season=:newseason,name=:moviename where id=:movieId")
+    void updatemyMovie(int movieId,String moviename,int newseason,int newepisode);
 
 
 }

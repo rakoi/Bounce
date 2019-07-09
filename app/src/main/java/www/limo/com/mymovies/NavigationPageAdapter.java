@@ -22,6 +22,8 @@ public class NavigationPageAdapter extends FragmentPagerAdapter {
             case 1:
                 return new WatchList();
             case 2:
+                return new newmovies();
+            case 3:
                 return new NewShows();
                 default:
                     return new MyList();

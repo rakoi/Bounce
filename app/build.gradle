@@ -41,6 +41,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation "android.arch.persistence.room:runtime:1.0.0-rc1"
-    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-rc1" // For Kotlin use kapt instead of annotationProcessor
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-rc1"
+    // For Kotlin use kapt instead of annotationProcessor
 
 }
