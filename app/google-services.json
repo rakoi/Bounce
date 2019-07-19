@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1052761428751",
+    "firebase_url": "https://bounce-2a89c.firebaseio.com",
+    "project_id": "bounce-2a89c",
+    "storage_bucket": "bounce-2a89c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1052761428751:android:1761a55c271828fd",
+        "android_client_info": {
+          "package_name": "www.limo.com.mymovies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1052761428751-tlm6jguv7ful9umfr8s74hk39m4oe9r3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "www.limo.com.mymovies",
+            "certificate_hash": "8e17722519a904ede6b68ec4441e320c781818b4"
+          }
+        },
+        {
+          "client_id": "1052761428751-v4rvims3p78iese87c3o7q1t709d7g5f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfjZ4S8Myh3E7IJ7OX-IyxGx1bI5p09eQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1052761428751-v4rvims3p78iese87c3o7q1t709d7g5f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
