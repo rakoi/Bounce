@@ -1,8 +1,10 @@
 package www.limo.com.mymovies;
 
+import android.app.ProgressDialog;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +36,7 @@ import java.util.List;
 
 import www.limo.com.mymovies.entities.Movies;
 import www.limo.com.mymovies.entities.MyMovie;
+import www.limo.com.mymovies.entities.WatchList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -39,9 +44,11 @@ public class MainActivity extends AppCompatActivity {
     public TabLayout tabLayout;
     public NavigationPageAdapter navigationPageAdapter;
     public ViewPager viewPager;
+    public int counter;
     public GoogleSignInClient mGoogleSignInClient;
     public GoogleSignInOptions gso;
     public FirebaseAuth mAuth;
+    public ProgressDialog progressDialog;
     GoogleSignInAccount account;
     public String Uid;
     FirebaseDatabase database;
@@ -57,12 +64,11 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
          database = FirebaseDatabase.getInstance();
-         if(mAuth!=null) {
-             //Uid = mAuth.getCurrentUser().getEmail();
-         }myRef = database.getReference("userData");
 
 
-
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Please Wait");
+        progressDialog.setCancelable(false);
 
         tabLayout=(TabLayout)findViewById(R.id.tabLayout);
         viewPager=findViewById(R.id.viewpager);
@@ -103,9 +109,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        Uid = mAuth.getCurrentUser().getUid();
-        Toast.makeText(MainActivity.this,Uid,Toast.LENGTH_LONG).show();
-    }
+          Uid = mAuth.getCurrentUser().getUid();
+
+        myRef = database.getReference("userData/");
+
+
+
+
+      }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -129,16 +140,32 @@ public class MainActivity extends AppCompatActivity {
 
                 mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
                 account = GoogleSignIn.getLastSignedInAccount(this);
+
+
+
+
+                    //mAuth.signOut();
+
                 mGoogleSignInClient.signOut();
+                mAuth.signOut();
                 finish();
                 startActivity(new Intent(this,LoginActivity.class));
+
                 break;
             case R.id.faqBtn:
                 startActivity(new Intent(this,FaqActivity.class));
                 break;
             case R.id.backup:
-                    uploadData();
+                    progressDialog.show();
+                   uploadData();
+                   progressDialog.dismiss();
+
+
                 break;
+            case R.id.downloadbackup:
+                downloadBackUp();
+                break;
+
                 default:
                     break;
 
@@ -154,17 +181,37 @@ public class MainActivity extends AppCompatActivity {
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(1);
     }
-    public void uploadData(){
-
+    public boolean uploadData(){
+         counter=0;
         AppDatabase roomdatabase = Room.databaseBuilder(MainActivity.this, AppDatabase.class, "bounce").allowMainThreadQueries().build();
         List<MyMovie> myMovieArrayList=roomdatabase.myMoviesDao().getAllMyMovies();
-
+        myRef=myRef.child(Uid);
+        myRef.getRef().child("myMovies").setValue(null);
         for (MyMovie movie:myMovieArrayList){
-            String movieId=String.valueOf(movie.getId());
-            myRef.child(Uid).child("MyMovie").setValue("12");
+
+           myRef.child("myMovies").push().setValue(movie);
 
         }
 
+        List<WatchList> watchListList=roomdatabase.myWatchListDao().getAllWatchListItems();
+         myRef.getRef().child("watchList").setValue(null);
+
+         if(watchListList.size()>0) {
+             for (WatchList watchList : watchListList) {
+
+                 myRef.child("watchList").push().setValue(watchList);
+             }
+         }
+
+
+
+             return true;
+
+
+    }
+    public void downloadBackUp(){
+        Toast.makeText(this,"Dowlnloading",Toast.LENGTH_LONG).show();
+        myRef=myRef.child(Uid);
 
     }
 }

@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Register extends AppCompatActivity {
 
@@ -23,6 +25,9 @@ public class Register extends AppCompatActivity {
     Button registerBtn;
     ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
+    public String Uid;
+    FirebaseDatabase database;
+    DatabaseReference myRef ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +81,9 @@ public class Register extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            /*Uid = mAuth.getCurrentUser().getUid();
+                            myRef = database.getReference("userData/");
+                            myRef.setValue(Uid);*/
                           startActivity(new Intent(getApplicationContext(),MainActivity.class));
                         } else {
 
