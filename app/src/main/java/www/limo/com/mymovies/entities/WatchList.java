@@ -22,6 +22,12 @@ public class WatchList {
     public WatchList() {
     }
 
+    public WatchList(String movieName, boolean isWatched, boolean isSelected) {
+        this.movieName = movieName;
+        this.isWatched = isWatched;
+        this.isSelected = isSelected;
+    }
+
     public WatchList(int id, String movieName) {
         this.id = id;
         this.movieName = movieName;

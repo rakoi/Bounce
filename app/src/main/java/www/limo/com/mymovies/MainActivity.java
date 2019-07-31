@@ -1,8 +1,13 @@
 package www.limo.com.mymovies;
 
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.arch.persistence.room.Room;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -53,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     public String Uid;
     FirebaseDatabase database;
     DatabaseReference myRef ;
+    private DatabaseReference MoviesRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,13 +117,17 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
           Uid = mAuth.getCurrentUser().getUid();
 
-        myRef = database.getReference("userData/");
+            myRef = database.getReference("userData/");
+            myRef=myRef.child(Uid);
 
 
 
 
       }
-
+    @Override
+    public void onResume(){
+        super.onResume();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the8 menu; this adds items to the action bar if it is present.
@@ -156,11 +166,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this,FaqActivity.class));
                 break;
             case R.id.backup:
-                    progressDialog.show();
-                   uploadData();
-                   progressDialog.dismiss();
 
-
+                          uploadData();
                 break;
             case R.id.downloadbackup:
                 downloadBackUp();
@@ -181,37 +188,283 @@ public class MainActivity extends AppCompatActivity {
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(1);
     }
-    public boolean uploadData(){
-         counter=0;
-        AppDatabase roomdatabase = Room.databaseBuilder(MainActivity.this, AppDatabase.class, "bounce").allowMainThreadQueries().build();
-        List<MyMovie> myMovieArrayList=roomdatabase.myMoviesDao().getAllMyMovies();
-        myRef=myRef.child(Uid);
-        myRef.getRef().child("myMovies").setValue(null);
-        for (MyMovie movie:myMovieArrayList){
+    public void uploadData(){
 
-           myRef.child("myMovies").push().setValue(movie);
-
-        }
-
-        List<WatchList> watchListList=roomdatabase.myWatchListDao().getAllWatchListItems();
-         myRef.getRef().child("watchList").setValue(null);
-
-         if(watchListList.size()>0) {
-             for (WatchList watchList : watchListList) {
-
-                 myRef.child("watchList").push().setValue(watchList);
-             }
-         }
-
-
-
-             return true;
+        UploadAsynTask asynClass=new UploadAsynTask();
+        asynClass.execute();
 
 
     }
     public void downloadBackUp(){
-        Toast.makeText(this,"Dowlnloading",Toast.LENGTH_LONG).show();
-        myRef=myRef.child(Uid);
+        donwloadAsynTask donwloadAsynTask=new donwloadAsynTask();
+        donwloadAsynTask.execute();
+
+       /* MoviesRef=myRef.child("myMovies");
+        DatabaseReference WatchListRef = myRef.child(Uid).child("watchList");
+        final AppDatabase myroomdatabase = Room.databaseBuilder(MainActivity.this, AppDatabase.class, "bounce").allowMainThreadQueries().build();
+
+        MoviesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ArrayList<MyMovie> databasemovies=new ArrayList<>();
+                final AppDatabase myroomdatabase = Room.databaseBuilder(MainActivity.this, AppDatabase.class, "bounce").allowMainThreadQueries().build();
+                if(dataSnapshot!=null){
+                    for(DataSnapshot ds:dataSnapshot.getChildren()){
+                        MyMovie movie=ds.getValue(MyMovie.class);
+                        databasemovies.add(movie);
+                        try {
+                            myroomdatabase.myMoviesDao().insertAll(movie);
+                        }catch (Exception ex){
+                            ex.printStackTrace();
+                        }
+                    }
+
+                }else if(dataSnapshot==null){
+                    Toast.makeText(MainActivity.this,"Un able to process",Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(MainActivity.this,"Something went wrong",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        WatchListRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                final AppDatabase myroomdatabase = Room.databaseBuilder(MainActivity.this, AppDatabase.class, "bounce").allowMainThreadQueries().build();
+                ArrayList<WatchList> databaseWatchList=new ArrayList<>();
+                Log.d("myFb", "onDataChange: "+dataSnapshot);
+                if(dataSnapshot!=null){
+
+                    for(DataSnapshot ds:dataSnapshot.getChildren()){
+
+                        WatchList watchListItem=ds.getValue(WatchList.class);
+                        try {
+                            myroomdatabase.myWatchListDao().saveWatchListItem(watchListItem);
+
+                        }catch (Exception ex){
+                            ex.printStackTrace();
+                        }
+
+                    }
+                }else if(dataSnapshot==null){
+                    Toast.makeText(MainActivity.this,"Un able to process",Toast.LENGTH_SHORT).show();
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(MainActivity.this,"Un able to process",Toast.LENGTH_SHORT).show();
+                Log.d("Data", "onCancelled: "+databaseError.toString());
+            }
+        });
+
+*/
+/*
+       Intent intent = getIntent();
+       finish();
+        startActivity(intent);
+*/
+
+
+
 
     }
+
+    private class donwloadAsynTask extends AsyncTask<String,String,String> {
+        String response;
+
+        private boolean isNetworkAvailable() {
+            ConnectivityManager connectivityManager
+                    = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+
+        public String getResponse() {
+            return response;
+        }
+
+        public void setResponse(String response) {
+            this.response = response;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            MoviesRef=myRef.child("myMovies");
+            DatabaseReference WatchListRef = myRef.child(Uid).child("watchList");
+            final AppDatabase myroomdatabase = Room.databaseBuilder(MainActivity.this, AppDatabase.class, "bounce").allowMainThreadQueries().build();
+
+
+            if(!isNetworkAvailable()){
+               response="Check network connection";
+            }
+
+            MoviesRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    ArrayList<MyMovie> databasemovies=new ArrayList<>();
+                    final AppDatabase myroomdatabase = Room.databaseBuilder(MainActivity.this, AppDatabase.class, "bounce").allowMainThreadQueries().build();
+                    if(dataSnapshot!=null){
+                        for(DataSnapshot ds:dataSnapshot.getChildren()){
+                            MyMovie movie=ds.getValue(MyMovie.class);
+                            databasemovies.add(movie);
+                            response="Data Downloaded";
+                            try {
+                                myroomdatabase.myMoviesDao().insertAll(movie);
+                            }catch (Exception ex){
+                                ex.printStackTrace();
+                            }
+                        }
+
+                    }else if(dataSnapshot==null){
+                        response="something went wrong";
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    response="something went wrong";
+                     }
+            });
+            WatchListRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    final AppDatabase myroomdatabase = Room.databaseBuilder(MainActivity.this, AppDatabase.class, "bounce").allowMainThreadQueries().build();
+                          if(dataSnapshot!=null){
+
+                        for(DataSnapshot ds:dataSnapshot.getChildren()){
+
+                            WatchList watchListItem=ds.getValue(WatchList.class);
+                            try {
+                                myroomdatabase.myWatchListDao().saveWatchListItem(watchListItem);
+
+                            }catch (Exception ex){
+                                ex.printStackTrace();
+                            }
+
+
+                        }
+                    }else if(dataSnapshot==null){
+                        response="Something went wrong";
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    response="Something went wrong";
+                     }
+            });
+
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+
+            Toast.makeText(MainActivity.this,response,Toast.LENGTH_LONG).show();
+            progressDialog.dismiss();
+            if(!response.equals("Check network connection")){
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
+            }
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressDialog.show();
+        }
+
+
+
+    }
+
+
+        private class UploadAsynTask extends AsyncTask<String,String,String>{
+
+        public String response;
+
+        public String getResponse() {
+            return response;
+        }
+
+        public void setResponse(String response) {
+            this.response = response;
+        }
+
+        private boolean isNetworkAvailable() {
+            ConnectivityManager connectivityManager
+                    = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+             AppDatabase roomdatabase = Room.databaseBuilder(MainActivity.this, AppDatabase.class, "bounce").allowMainThreadQueries().build();
+             List<MyMovie> myMovieArrayList=roomdatabase.myMoviesDao().getAllMyMovies();
+            final String[] myresp = new String[1];
+
+            myRef.getRef().child("myMovies").setValue(null);
+
+
+
+            if(!isNetworkAvailable()){
+                setResponse("Check Network Connection");
+            }else{
+                setResponse("Updated ");
+            }
+
+            if(myMovieArrayList.size()>0) {
+                for (MyMovie movie : myMovieArrayList) {
+
+                    myRef.child("myMovies").push().setValue(movie);
+
+                }
+            }
+
+
+            List<WatchList> watchListList=roomdatabase.myWatchListDao().getAllWatchListItems();
+            myRef.child("watchList").setValue(null);
+
+            if(watchListList.size()>0) {
+                for (WatchList watchList : watchListList) {
+
+                    myRef.child("watchList").push().setValue(watchList).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            setResponse("Check Network Connection");
+                        }
+                    });
+
+                }
+
+            }
+
+
+
+
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String result) {
+            progressDialog.dismiss();
+            Toast.makeText(MainActivity.this,response,Toast.LENGTH_LONG).show();
+
+
+        }
+        protected void onPreExecute() {
+            progressDialog.show();
+        }
+    }
 }
+

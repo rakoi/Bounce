@@ -149,4 +149,7 @@ public class newmovies extends Fragment {
         });
     }
 
+
+
+
 }

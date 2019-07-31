@@ -128,4 +128,10 @@ public class MyList extends Fragment {
     return view;
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        moviesRecyclerAdapter.notifyDataSetChanged();
+    }
+
 }
