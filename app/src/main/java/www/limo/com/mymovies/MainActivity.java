@@ -199,81 +199,6 @@ public class MainActivity extends AppCompatActivity {
         donwloadAsynTask donwloadAsynTask=new donwloadAsynTask();
         donwloadAsynTask.execute();
 
-       /* MoviesRef=myRef.child("myMovies");
-        DatabaseReference WatchListRef = myRef.child(Uid).child("watchList");
-        final AppDatabase myroomdatabase = Room.databaseBuilder(MainActivity.this, AppDatabase.class, "bounce").allowMainThreadQueries().build();
-
-        MoviesRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<MyMovie> databasemovies=new ArrayList<>();
-                final AppDatabase myroomdatabase = Room.databaseBuilder(MainActivity.this, AppDatabase.class, "bounce").allowMainThreadQueries().build();
-                if(dataSnapshot!=null){
-                    for(DataSnapshot ds:dataSnapshot.getChildren()){
-                        MyMovie movie=ds.getValue(MyMovie.class);
-                        databasemovies.add(movie);
-                        try {
-                            myroomdatabase.myMoviesDao().insertAll(movie);
-                        }catch (Exception ex){
-                            ex.printStackTrace();
-                        }
-                    }
-
-                }else if(dataSnapshot==null){
-                    Toast.makeText(MainActivity.this,"Un able to process",Toast.LENGTH_SHORT).show();
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(MainActivity.this,"Something went wrong",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        WatchListRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                final AppDatabase myroomdatabase = Room.databaseBuilder(MainActivity.this, AppDatabase.class, "bounce").allowMainThreadQueries().build();
-                ArrayList<WatchList> databaseWatchList=new ArrayList<>();
-                Log.d("myFb", "onDataChange: "+dataSnapshot);
-                if(dataSnapshot!=null){
-
-                    for(DataSnapshot ds:dataSnapshot.getChildren()){
-
-                        WatchList watchListItem=ds.getValue(WatchList.class);
-                        try {
-                            myroomdatabase.myWatchListDao().saveWatchListItem(watchListItem);
-
-                        }catch (Exception ex){
-                            ex.printStackTrace();
-                        }
-
-                    }
-                }else if(dataSnapshot==null){
-                    Toast.makeText(MainActivity.this,"Un able to process",Toast.LENGTH_SHORT).show();
-
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(MainActivity.this,"Un able to process",Toast.LENGTH_SHORT).show();
-                Log.d("Data", "onCancelled: "+databaseError.toString());
-            }
-        });
-
-*/
-/*
-       Intent intent = getIntent();
-       finish();
-        startActivity(intent);
-*/
-
-
-
 
     }
 
@@ -371,11 +296,11 @@ public class MainActivity extends AppCompatActivity {
 
             Toast.makeText(MainActivity.this,response,Toast.LENGTH_LONG).show();
             progressDialog.dismiss();
-            if(!response.equals("Check network connection")){
+           // if(!response.equals("Check network connection")){
                 Intent intent = getIntent();
                 finish();
                 startActivity(intent);
-            }
+            //}
 
         }
 
